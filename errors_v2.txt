@@ -1,0 +1,1 @@
+src/components/Solutions.tsx(2,10): error TS2305: Module '"lucide-react"' has no exported member 'ChartLine'.

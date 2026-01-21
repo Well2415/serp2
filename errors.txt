@@ -1,0 +1,19 @@
+src/App.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Ecosystem.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Ecosystem.tsx(2,72): error TS6133: 'Info' is declared but its value is never read.
+src/components/Ecosystem.tsx(33,37): error TS6133: 'node' is declared but its value is never read.
+src/components/FAQ.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Features.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Footer.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Hero.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Navbar.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Partners.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Solutions.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Solutions.tsx(2,10): error TS2305: Module '"lucide-react"' has no exported member 'ChartLine'.
+src/components/Steps.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/WhyChoose.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Contato.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Funcionalidades.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Home.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Planos.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Solucoes.tsx(1,1): error TS6133: 'React' is declared but its value is never read.

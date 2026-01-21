@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-primary text-text font-sans antialiased;
+        background-color: #1a365d;
+        color: #334155;
+        overflow-x: hidden;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    input,
+    textarea {
+        user-select: text;
+        -webkit-user-select: text;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-heading font-bold text-primary leading-tight;
+    }
+}
+
+@layer utilities {
+    .mask-linear-fade {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-scroll {
+        animation: scroll 40s linear infinite;
+    }
+
+    .will-change-transform {
+        will-change: transform;
+    }
+}
