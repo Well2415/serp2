@@ -18,7 +18,7 @@ const solutions = [
         // Actually, let's use 'site3.png' or similar if it looks like a dashboard, OR just update the ones we know (Sites and RH).
         // Safest bet: Update Sites and RH, leave ERP if no better match, OR use Ponto2 if it looks generic enough. 
         // Let's stick to the clear matches first.
-        image: "/img/gallery_erp.png",
+        image: "/img/features/sites/site2.png",
         icon: <LineChart className="text-blue-500" size={32} />,
         color: "bg-blue-50",
         btnColor: "bg-blue-600 hover:bg-blue-700"
