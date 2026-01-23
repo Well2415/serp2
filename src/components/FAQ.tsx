@@ -14,7 +14,7 @@ const FAQ = () => {
         },
         {
             question: "Posso testar antes de pagar?",
-            answer: "Com certeza. Oferecemos 7 dias grátis com acesso a todas as funcionalidades pra você ver na prática."
+            answer: "Com certeza. Oferecemos 30 dias grátis com acesso a todas as funcionalidades pra você ver na prática."
         },
         {
             question: "Como funciona o suporte?",

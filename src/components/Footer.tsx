@@ -1,5 +1,6 @@
 import React from 'react';
-import { Instagram, Linkedin, Facebook, MapPin } from 'lucide-react';
+
+import { Instagram, MapPin, Phone } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -12,14 +13,11 @@ const Footer = () => {
                             Soluções inteligentes para gestão empresarial. Simplifique, controle e cresça com a melhor tecnologia do mercado.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-secondary hover:text-white transition-all">
+                            <a href="https://www.instagram.com/serp_solucoes/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all group" title="Instagram">
                                 <Instagram size={20} />
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-secondary hover:text-white transition-all">
-                                <Linkedin size={20} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-secondary hover:text-white transition-all">
-                                <Facebook size={20} />
+                            <a href="tel:+5562994424641" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all group" title="Ligar">
+                                <Phone size={20} />
                             </a>
                         </div>
                     </div>

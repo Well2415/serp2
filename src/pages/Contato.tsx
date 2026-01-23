@@ -1,9 +1,69 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, MessageCircle, Send, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Phone, Mail, MapPin, MessageCircle, Send, ArrowRight, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 const Contato = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: 'Quero conhecer os Planos',
+        message: ''
+    });
+
+    const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('sending');
+
+        try {
+            // Utilizando FormSubmit.co para envio sem backend
+            const response = await fetch("https://formsubmit.co/ajax/Pablo.sistemas21@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: `Novo Contato Site: ${formData.subject}`,
+                    _template: 'table', // Formata o email como uma tabela bonita
+                    _captcha: 'false', // Desativa captcha para facilitar
+                    nome: formData.name,
+                    email: formData.email,
+                    telefone: formData.phone,
+                    assunto: formData.subject,
+                    mensagem: formData.message,
+                })
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    subject: 'Quero conhecer os Planos',
+                    message: ''
+                });
+                // Volta para idle após 5 segundos
+                setTimeout(() => setStatus('idle'), 5000);
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            console.error("Erro ao enviar:", error);
+            setStatus('error');
+        }
+    };
+
     return (
         <div className="bg-slate-50 min-h-screen">
             {/* Header */}
@@ -74,9 +134,9 @@ const Contato = () => {
                                 <p className="text-slate-400 mb-6 text-sm leading-relaxed">
                                     Para suporte técnico especializado, abertura de chamados ou dúvidas sobre utilização, acesse a Área do Cliente.
                                 </p>
-                                <button className="text-emerald-400 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all hover:text-emerald-300">
+                                <Link to="/login" className="text-emerald-400 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all hover:text-emerald-300">
                                     Acessar Portal do Cliente <ArrowRight size={16} />
-                                </button>
+                                </Link>
                             </div>
                             {/* Decorative background element */}
                             <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
@@ -90,29 +150,57 @@ const Contato = () => {
                         transition={{ delay: 0.2 }}
                         className="flex-[1.5]"
                     >
-                        <form className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl border border-slate-100">
+                        <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl border border-slate-100 relative overflow-hidden">
                             <h3 className="text-2xl font-bold text-primary mb-2">Envie uma mensagem</h3>
-                            <p className="text-slate-500 mb-8">Preencha o formulário abaixo e nossos consultores entrarão em contato em até 24h.</p>
+                            <p className="text-slate-500 mb-8">Preencha o formulário abaixo e nossos consultores enviarão um retorno para seu e-mail.</p>
 
                             <div className="grid md:grid-cols-2 gap-6 mb-6">
                                 <div className="space-y-2">
                                     <label className="text-sm font-semibold text-slate-700">Seu Nome</label>
-                                    <input type="text" placeholder="Nome completo" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all" />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        placeholder="Nome completo"
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                                        required
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-semibold text-slate-700">Seu E-mail</label>
-                                    <input type="email" placeholder="nome@empresa.com.br" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="nome@empresa.com.br"
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                                    />
                                 </div>
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-6 mb-6">
                                 <div className="space-y-2">
                                     <label className="text-sm font-semibold text-slate-700">Telefone / WhatsApp</label>
-                                    <input type="tel" placeholder="(11) 99999-9999" className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all" />
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        placeholder="(62) 99999-9999"
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                                        required
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-semibold text-slate-700">Assunto</label>
-                                    <select className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all">
+                                    <select
+                                        name="subject"
+                                        value={formData.subject}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
+                                    >
                                         <option>Quero conhecer os Planos</option>
                                         <option>Dúvida sobre Funcionalidades</option>
                                         <option>Parcerias</option>
@@ -123,13 +211,56 @@ const Contato = () => {
 
                             <div className="space-y-2 mb-8">
                                 <label className="text-sm font-semibold text-slate-700">Como podemos ajudar?</label>
-                                <textarea rows={4} placeholder="Conte um pouco sobre sua necessidade..." className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all resize-none"></textarea>
+                                <textarea
+                                    rows={4}
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    placeholder="Conte um pouco sobre sua necessidade..."
+                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all resize-none"
+                                    required
+                                ></textarea>
                             </div>
 
-                            <button type="submit" className="w-full bg-secondary hover:bg-secondary-hover text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
-                                <Send size={20} />
-                                Enviar Mensagem
-                            </button>
+                            <AnimatePresence mode="wait">
+                                {status === 'success' ? (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="w-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2"
+                                    >
+                                        <CheckCircle2 size={20} />
+                                        Mensagem enviada com sucesso!
+                                    </motion.div>
+                                ) : status === 'error' ? (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="w-full bg-red-50 border border-red-200 text-red-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2"
+                                    >
+                                        <AlertCircle size={20} />
+                                        Erro ao enviar. Tente novamente ou use o WhatsApp.
+                                    </motion.div>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        disabled={status === 'sending'}
+                                        className="w-full bg-secondary hover:bg-secondary-hover text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    >
+                                        {status === 'sending' ? (
+                                            <>
+                                                <Loader2 size={20} className="animate-spin" />
+                                                Enviando...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Send size={20} />
+                                                Enviar Mensagem
+                                            </>
+                                        )}
+                                    </button>
+                                )}
+                            </AnimatePresence>
                         </form>
                     </motion.div>
                 </div>

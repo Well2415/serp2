@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Layers, Zap, CreditCard, Info, Mail, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -22,18 +22,20 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: 'Início', href: '/' },
-        { name: 'Funcionalidades', href: '/funcionalidades' },
-        { name: 'Soluções', href: '/solucoes' },
-        { name: 'Planos', href: '/planos' },
-        { name: 'Sobre Nós', href: '/sobre' },
-        { name: 'Contato', href: '/contato' },
+        { name: 'Início', href: '/', icon: <Home size={18} /> },
+        { name: 'Funcionalidades', href: '/funcionalidades', icon: <Layers size={18} /> },
+        { name: 'Soluções', href: '/solucoes', icon: <Zap size={18} /> },
+        { name: 'Planos', href: '/planos', icon: <CreditCard size={18} /> },
+        { name: 'Sobre Nós', href: '/sobre', icon: <Info size={18} /> },
+        { name: 'Contato', href: '/contato', icon: <Mail size={18} /> },
     ];
 
     // Function to handle scroll to top active link click
     const handleLinkClick = () => {
         setIsOpen(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
     };
 
     return (
@@ -84,8 +86,10 @@ const Navbar = () => {
                         >
                             Entrar
                         </Link>
-                        <Link
-                            to="/contato"
+                        <a
+                            href="https://wa.me/5562994424641?text=Ol%C3%A1%2C%20gostaria%20de%20utilizar%20o%20teste%20gr%C3%A1tis%20que%20vi%20no%20site."
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg flex items-center gap-2 group/btn
                             ${scrolled
                                     ? 'bg-secondary text-white hover:bg-secondary-hover hover:shadow-secondary/30'
@@ -93,7 +97,7 @@ const Navbar = () => {
                         >
                             Testar Grátis
                             <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-                        </Link>
+                        </a>
                     </div>
 
                     {/* Mobile Toggle */}
@@ -115,28 +119,48 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-4 right-4 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 md:hidden overflow-hidden"
+                        className="absolute top-full left-4 right-4 mt-4 bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_40px_-5px_rgba(0,0,0,0.15)] border border-white/20 p-6 md:hidden overflow-hidden ring-1 ring-black/5"
                     >
                         <ul className="flex flex-col gap-2">
-                            {navLinks.map((link) => (
-                                <li key={link.name}>
+                            {navLinks.map((link, i) => (
+                                <motion.li
+                                    key={link.name}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                >
                                     <Link
                                         to={link.href}
-                                        className="block p-4 rounded-xl text-slate-600 font-medium hover:bg-slate-50 hover:text-secondary transition-colors"
+                                        className="flex items-center justify-between p-4 rounded-2xl text-slate-600 font-medium hover:bg-slate-50 hover:text-secondary transition-all group active:scale-95"
                                         onClick={handleLinkClick}
                                     >
-                                        {link.name}
+                                        <span className="flex items-center gap-3">
+                                            <span className="text-slate-400 group-hover:text-secondary transition-colors">
+                                                {link.icon}
+                                            </span>
+                                            {link.name}
+                                        </span>
+                                        <ChevronRight size={16} className="text-slate-300 group-hover:text-secondary group-hover:translate-x-1 transition-all" />
                                     </Link>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
-                        <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
-                            <Link to="#" className="w-full text-center py-3 rounded-xl font-bold text-primary hover:bg-slate-50 transition-colors">
-                                Já sou cliente
+                        <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col gap-3">
+                            <Link
+                                to="/login"
+                                onClick={handleLinkClick}
+                                className="w-full text-center py-4 rounded-xl font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-100"
+                            >
+                                Entrar
                             </Link>
-                            <Link to="/contato" className="w-full text-center py-3 rounded-xl font-bold bg-secondary text-white shadow-lg shadow-secondary/20 hover:bg-secondary-hover transition-all">
-                                Começar Agora
-                            </Link>
+                            <a
+                                href="https://wa.me/5562994424641?text=Ol%C3%A1%2C%20gostaria%20de%20utilizar%20o%20teste%20gr%C3%A1tis%20que%20vi%20no%20site."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full text-center py-4 rounded-xl font-bold bg-secondary text-white shadow-lg shadow-secondary/20 hover:bg-secondary-hover transition-all flex items-center justify-center gap-2"
+                            >
+                                Testar Grátis <ArrowRight size={18} />
+                            </a>
                         </div>
                     </motion.div>
                 )}

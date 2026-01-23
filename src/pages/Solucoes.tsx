@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, LineChart, Globe, Users } from 'lucide-react';
 import Footer from '../components/Footer';
+import DeviceFrame from '../components/DeviceFrame';
 
 const solutions = [
     {
@@ -10,15 +11,8 @@ const solutions = [
         subtitle: "O Coração da sua Empresa",
         desc: "Transforme a bagunça em processos organizados. Do estoque ao financeiro, tenha o controle total em uma única tela.",
         features: ["Emissão de Notas em segundos", "Controle de Estoque Multilocal", "Integração Bancaria", "Relatórios de DRE e Lucratividade"],
-        // Keeping generic ERP or swapping to a specific one if available. 
-        // User asked for "images we inserted in prints". 
-        // Since we don't have a specific "ERP" folder from the prints (only Ponto and Sites), 
-        // I will use one of the high-quality site dashboards that looks like a system or keep the gallery_erp if it was already a print.
-        // Let's assume gallery_erp was the placeholder. 
-        // Actually, let's use 'site3.png' or similar if it looks like a dashboard, OR just update the ones we know (Sites and RH).
-        // Safest bet: Update Sites and RH, leave ERP if no better match, OR use Ponto2 if it looks generic enough. 
-        // Let's stick to the clear matches first.
-        image: "/img/features/sites/site2.png",
+        image: "/img/features/sistema/sistema_erp_final.png",
+        type: 'browser',
         icon: <LineChart className="text-blue-500" size={32} />,
         color: "bg-blue-50",
         btnColor: "bg-blue-600 hover:bg-blue-700"
@@ -29,7 +23,8 @@ const solutions = [
         subtitle: "Sua Vitrine para o Mundo",
         desc: "Não basta ter um sistema, você precisa vender. Criamos sites de alta performance que convertem visitantes em clientes reais.",
         features: ["Sites Institucionais Otimizados (SEO)", "Lojas Virtuais Integradas ao ERP", "Landing Pages de Alta Conversão", "Design Responsivo para Celular"],
-        image: "/img/features/sites/site1.png",
+        image: "/img/features/sites/site1_clean.png",
+        type: 'browser',
         icon: <Globe className="text-purple-500" size={32} />,
         color: "bg-purple-50",
         btnColor: "bg-purple-600 hover:bg-purple-700"
@@ -40,7 +35,8 @@ const solutions = [
         subtitle: "Pessoas no Centro de Tudo",
         desc: "Uma gestão de equipe moderna, segura e transparente. Elimine o relógio de ponto físico e as planilhas manuais.",
         features: ["Ponto por Geolocalização (GPS)", "Reconhecimento Facial Antifraude", "Assinatura Eletrônica de Folha", "Portal do Colaborador (App)"],
-        image: "/img/features/ponto/ponto1.png",
+        image: "/img/features/ponto/ponto1_clean.png",
+        type: 'browser',
         icon: <Users className="text-emerald-500" size={32} />,
         color: "bg-emerald-50",
         btnColor: "bg-emerald-600 hover:bg-emerald-700"
@@ -124,10 +120,11 @@ const Solucoes = () => {
                                     className="flex-1 relative"
                                 >
                                     <div className={`absolute inset-0 bg-gradient-to-tr ${sol.color} to-transparent rounded-[3rem] transform rotate-3 scale-95 -z-10`} />
-                                    <img
+                                    <DeviceFrame
                                         src={sol.image}
                                         alt={sol.title}
-                                        className="w-full rounded-[2rem] shadow-2xl border border-slate-100/50 hover:scale-[1.02] transition-transform duration-500"
+                                        type={sol.type as 'laptop' | 'browser'}
+                                        className="w-full shadow-2xl"
                                     />
                                 </motion.div>
                             </div>

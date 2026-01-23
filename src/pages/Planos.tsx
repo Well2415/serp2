@@ -6,14 +6,14 @@ import Footer from '../components/Footer';
 const plans = [
     {
         name: "Essencial",
-        monthlyPrice: 199,
-        yearlyPrice: 169,
+        monthlyPrice: 161.25,
+        yearlyPrice: 137.06,
         desc: "Ideal para pequenos negócios organizarem a casa.",
         features: [
             "Emissor Fiscal Ilimitado (NFe/NFCe)",
             "Gestão Financeira Completa",
             "Controle de Estoque Básico",
-            "3 Usuários",
+            "1 Acesso",
             "Suporte via Chat/Email"
         ],
         highlight: false,
@@ -22,12 +22,12 @@ const plans = [
     },
     {
         name: "Profissional",
-        monthlyPrice: 299,
-        yearlyPrice: 249,
+        monthlyPrice: 210,
+        yearlyPrice: 178.50,
         desc: "Performance máxima para empresas em expansão.",
         features: [
             "Tudo do Essencial +",
-            "Usuários Ilimitados",
+            "Até 3 Acessos",
             "Frente de Caixa (PDV) Offline",
             "App de Força de Vendas",
             "Suporte Prioritário (WhatsApp)"
@@ -67,7 +67,7 @@ const featuresComparison = [
             { name: "Controle de Estoque", ess: "Básico", pro: "Avançado", ent: "Multi-loja" },
             { name: "Financeiro (DRE/Fluxo)", ess: true, pro: true, ent: true },
             { name: "Curva ABC e Relatórios BI", ess: false, pro: true, ent: true },
-            { name: "Usuários", ess: "3", pro: "Ilimitados", ent: "Ilimitados" },
+            { name: "Acessos", ess: "1", pro: "Até 3", ent: "Ilimitados" },
         ]
     },
     {
@@ -159,7 +159,7 @@ const Planos = () => {
                                             <>
                                                 <span className="text-sm font-semibold text-slate-400">R$</span>
                                                 <span className="text-5xl font-extrabold text-primary tracking-tight">
-                                                    {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                                                    {(isYearly ? Number(plan.yearlyPrice) : Number(plan.monthlyPrice)).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </span>
                                                 <span className="text-slate-400 font-medium text-sm">/mês</span>
                                             </>
@@ -170,7 +170,7 @@ const Planos = () => {
                                 </AnimatePresence>
                                 {isYearly && typeof plan.yearlyPrice === 'number' && typeof plan.monthlyPrice === 'number' && (
                                     <span className="text-xs text-emerald-500 font-bold bg-emerald-50 px-2 py-1 rounded-full mt-2">
-                                        Economize R$ {(plan.monthlyPrice - plan.yearlyPrice) * 12} /ano
+                                        Economize R$ {((Number(plan.monthlyPrice) - Number(plan.yearlyPrice)) * 12).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} /ano
                                     </span>
                                 )}
                             </div>
@@ -187,12 +187,24 @@ const Planos = () => {
                                 ))}
                             </div>
 
-                            <button className={`w-full py-4 rounded-xl font-bold transition-all shadow-lg hover:-translate-y-1 ${plan.highlight
-                                ? 'bg-secondary hover:bg-secondary-hover text-white shadow-blue-500/25'
-                                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                                }`}>
+                            <a
+                                href={`https://wa.me/5562994424641?text=${encodeURIComponent(
+                                    plan.name === 'Enterprise'
+                                        ? `Olá! Gostaria de falar com um especialista sobre o plano *Enterprise* e conhecer as soluções personalizadas para grandes operações.`
+                                        : `Olá! Gostaria de contratar o plano *${plan.name}*.\n\n` +
+                                        `Modalidade: *${isYearly ? 'Anual' : 'Mensal'}*\n` +
+                                        `Valor: *R$ ${(isYearly ? Number(plan.yearlyPrice) : Number(plan.monthlyPrice)).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}*\n\n` +
+                                        `Aguardo contato para prosseguir.`
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`w-full py-4 rounded-xl font-bold transition-all shadow-lg hover:-translate-y-1 block text-center ${plan.highlight
+                                    ? 'bg-secondary hover:bg-secondary-hover text-white shadow-blue-500/25'
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                    }`}
+                            >
                                 {plan.button}
-                            </button>
+                            </a>
                         </motion.div>
                     ))}
                 </div>
@@ -202,36 +214,36 @@ const Planos = () => {
                     <div className="p-8 bg-slate-50 border-b border-slate-100">
                         <h3 className="text-2xl font-bold text-center text-primary">Comparativo detalhado</h3>
                     </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
+                    <div className="overflow-x-auto relative">
+                        <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="text-left">
-                                    <th className="p-6 text-slate-500 font-medium">Recurso</th>
-                                    <th className="p-6 text-center text-primary font-bold w-1/5">Essencial</th>
-                                    <th className="p-6 text-center text-secondary font-bold text-lg w-1/5 bg-blue-50/50">Profissional</th>
-                                    <th className="p-6 text-center text-emerald-600 font-bold w-1/5">Enterprise</th>
+                                <tr>
+                                    <th className="sticky left-0 z-20 bg-white p-6 text-slate-500 font-medium shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] min-w-[160px]">Recurso</th>
+                                    <th className="p-6 text-center text-primary font-bold w-1/5 min-w-[140px]">Essencial</th>
+                                    <th className="p-6 text-center text-secondary font-bold text-lg w-1/5 min-w-[140px]">Profissional</th>
+                                    <th className="p-6 text-center text-emerald-600 font-bold w-1/5 min-w-[140px]">Enterprise</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                                 {featuresComparison.map((section, i) => (
                                     <React.Fragment key={i}>
                                         <tr className="bg-slate-50/50">
-                                            <td colSpan={4} className="p-4 pl-6 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                            <td colSpan={4} className="sticky left-0 z-10 bg-slate-50 p-4 pl-6 text-xs font-bold uppercase tracking-wider text-slate-400 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                                                 {section.category}
                                             </td>
                                         </tr>
                                         {section.items.map((item, j) => (
-                                            <tr key={j} className="hover:bg-slate-50 transition-colors">
-                                                <td className="p-6 text-sm font-medium text-slate-700 flex items-center gap-2">
+                                            <tr key={j} className="group hover:bg-slate-50 transition-colors">
+                                                <td className="sticky left-0 z-10 bg-white group-hover:bg-slate-50 p-6 text-sm font-medium text-slate-700 flex items-center gap-2 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] transition-colors">
                                                     {item.name}
-                                                    <Info size={14} className="text-slate-300 cursor-help" />
+                                                    <Info size={14} className="text-slate-300 cursor-help shrink-0" />
                                                 </td>
                                                 <td className="p-6 text-center">
                                                     {item.ess === true ? <Check size={20} className="mx-auto text-emerald-500" /> :
                                                         item.ess === false ? <Minus size={20} className="mx-auto text-slate-300" /> :
                                                             <span className="text-sm font-bold text-slate-600">{item.ess}</span>}
                                                 </td>
-                                                <td className="p-6 text-center bg-blue-50/30">
+                                                <td className="p-6 text-center transition-colors">
                                                     {item.pro === true ? <Check size={20} className="mx-auto text-emerald-500" /> :
                                                         item.pro === false ? <Minus size={20} className="mx-auto text-slate-300" /> :
                                                             <span className="text-sm font-bold text-primary">{item.pro}</span>}

@@ -40,7 +40,7 @@ const Hero = () => {
                                 <Check size={16} className="text-emerald-400" /> Sem cartão de crédito
                             </div>
                             <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                <CalendarCheck size={16} className="text-emerald-400" /> 7 dias grátis
+                                <CalendarCheck size={16} className="text-emerald-400" /> 30 dias grátis
                             </div>
                         </div>
                     </motion.div>

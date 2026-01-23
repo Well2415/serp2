@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [credentials, setCredentials] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
         setIsLoading(true);
-        // Simulate loading for now
-        setTimeout(() => setIsLoading(false), 2000);
+
+        // Simulate validation
+        setTimeout(() => {
+            if (credentials.email && credentials.password) {
+                // Simulating incorrect credentials
+                setError('Usuário ou senha incorretos. Verifique suas credenciais.');
+                setIsLoading(false);
+            } else {
+                setIsLoading(false);
+            }
+        }, 1500);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setCredentials(prev => ({ ...prev, [name]: value }));
+        if (error) setError('');
     };
 
     return (
@@ -34,12 +53,29 @@ const Login = () => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
+                        <AnimatePresence>
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                    animate={{ opacity: 1, height: 'auto', marginBottom: 20 }}
+                                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                    className="bg-red-500/10 border border-red-500/20 text-red-200 px-4 py-3 rounded-xl text-sm flex items-center gap-3 overflow-hidden shadow-inner"
+                                >
+                                    <AlertCircle size={18} className="text-red-400 shrink-0" />
+                                    <span>{error}</span>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-slate-300 ml-1">E-mail</label>
                             <div className="relative">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     type="email"
+                                    name="email"
+                                    value={credentials.email}
+                                    onChange={handleChange}
                                     placeholder="seu@email.com"
                                     className="w-full bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 rounded-xl py-3.5 pl-12 pr-4 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                                     required
@@ -56,6 +92,9 @@ const Login = () => {
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     type="password"
+                                    name="password"
+                                    value={credentials.password}
+                                    onChange={handleChange}
                                     placeholder="••••••••"
                                     className="w-full bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 rounded-xl py-3.5 pl-12 pr-4 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
                                     required
@@ -82,9 +121,9 @@ const Login = () => {
                     <div className="mt-8 text-center">
                         <p className="text-slate-400 text-sm">
                             Ainda não tem conta?{' '}
-                            <Link to="/contato" className="text-secondary font-bold hover:text-white transition-colors">
+                            <a href="https://wa.me/5562994424641?text=Ol%C3%A1%2C%20gostaria%20de%20utilizar%20o%20teste%20gr%C3%A1tis%20que%20vi%20no%20site." target="_blank" rel="noopener noreferrer" className="text-secondary font-bold hover:text-white transition-colors">
                                 Testar Grátis
-                            </Link>
+                            </a>
                         </p>
                     </div>
                 </div>
